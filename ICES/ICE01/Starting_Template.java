@@ -12,6 +12,11 @@ public class Starting_Template extends Object {
 
 		/* Your code should after here: */
 		jo.move();
+		jo.move();
+		jo.pickThing();
+		jo.move();
+		jo.putThing();
 		jo.turnLeft();
+		jo.move();
 	} 
 }
