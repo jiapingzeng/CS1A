@@ -71,6 +71,7 @@ public class I_04_If extends Object
         setupCity(toronto); // ignore this line for now
 
       /* Your code should go here: */
+      // retrive things in all 4 paths
         retriveThing(Jo);
         retriveThing(Jo);
         retriveThing(Jo);
@@ -79,28 +80,36 @@ public class I_04_If extends Object
 
     public static void retriveThing(Robot r) {
         r.move();
+        // if there are no walls around, then the robot is at its initial position
         while(!allSidesAreClear(r)) {
+            // if there is a thing at current position, pick it up and turn around
             if(r.canPickThing()) {
                 r.pickThing();
                 r.turnLeft();
                 r.turnLeft();
             }
+            // check if front is clear, if not, turn left and check again until a path is found
             int numberOfTurns = 0;
             while(!r.frontIsClear()) {
                 r.turnLeft();
                 numberOfTurns++;
+                // avoid turning around
                 if(numberOfTurns%4 == 2) {
                     r.turnLeft();
                 }
             }
+            // move forward after a clear path is foud
             r.move();
         }
+        // put thing down at initial position
         r.putThing();
+        // turn left to face different path
         r.turnLeft();
     }
 
     public static boolean allSidesAreClear(Robot r) {
         boolean b = true;
+        // turn to all 4 sides and check if all are clear
         for(int i = 0; i < 4; i++) {
             if(!r.frontIsClear()) {
                 b = false;
