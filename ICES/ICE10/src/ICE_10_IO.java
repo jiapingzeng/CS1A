@@ -40,6 +40,10 @@ public class ICE_10_IO extends Object
                 {
                     rob.move();
                 }
+                if (userChoice == 3) // break out of loop if '3' is received
+                {
+                    break;
+                }
             }
             else
             {
