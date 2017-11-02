@@ -1,8 +1,4 @@
 import becker.robots.*;
-/*
-Starting Template:
-This file was created in order to provide you with a pre-made 'starter' program
- */
 
 class SecondDumbBot extends Robot {
     int startingStreet;
