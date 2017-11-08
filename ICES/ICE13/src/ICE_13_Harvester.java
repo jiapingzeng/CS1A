@@ -72,6 +72,9 @@ public class ICE_13_Harvester extends RobotSE
     /** Harvest the things on one intersection. */
     protected void harvestIntersection()
     {
-        this.pickThing();
+        // added while so the robot picks up all things at current location, if any
+        while (canPickThing()) {
+            this.pickThing();
+        }
     }
 }
