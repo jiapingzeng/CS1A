@@ -1,6 +1,3 @@
-import java.util.*;
-
-
 class ArrayHelper1 extends Object
 {
     public void PrintArray(int[] arr)

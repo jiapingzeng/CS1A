@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 class ArrayHelper2 extends Object
 {
 
@@ -52,14 +50,6 @@ public class ICE_18_FindInArray extends Object
         ah.PrintArray(shortArray);	// FIX THIS
         System.out.println("Long Array:  " );
         ah.PrintArray(longArray);		// FIX THIS
-
-
-        // Start by writing out the 'find' logic here, in main
-        //		(You can pick any value to search for - make sure that your
-        //		logic does the right thing for both values that ARE
-        //		present in the array and those that ARE NOT present.
-
-
 
         // Once you've got the logic working make sure that you can get these commands to work:
         ah.FindInArray(shortArray, 2); // SHOULD TELL US THAT '2' WAS FOUND AT SLOT 0

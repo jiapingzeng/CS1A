@@ -1,5 +1,3 @@
-import java.util.*;
-
 class ArrayHelper3 extends Object
 {
 
