@@ -1,35 +1,48 @@
-// PUT YOUR NAMES HERE <---<<<
-// BIT115 Fall 2015
+// Zhili Zhao, Jiaping Zeng, Eric Heldt, Dylan Yanovsky
+// CS1A Foothill Fall 2017
 // Assignment 4 ADVANCED: Guessing Game
 // The 'METHODS' File
-
-// You may use the nested comments below as hints only. Remember, there is no one right or wrong way 
-// to 'solve' this Assignment, so feel free to delete the comments if you find them distracting.
 
 import java.util.*;
 
 public class GuessingGame extends Object {
-    // List any instance variables here (e.g., userGuess, numberChoice)
 
+    /**
+     * Random object used to generate random number
+     */
     Random randomNumberGenerator = new Random();
+
+    /**
+     * Scanner for listening keyboard input
+     */
     Scanner keyboard = new Scanner(System.in);
+
+    /**
+     * Secret number for player to guess
+     */
     int secretNumber = this.GetRandomNumber();
 
-    // Create an array to hold 5 guesses (e.g., userGuess)
-    int[] userGuess = new int[5];
-    int numberChoice = 0;
+    /**
+     * Numbers the player has guessed
+     */
+    int[] userGuesses = {-1, -1, -1, -1, -1};
 
-    // If you need to get a number for the user to userGuess (randomly),
-    // call the method below and it will create one for you.
-    // The number may be as low as 0, and as high as 15
-    // (This will be 16 separate numbers that the user might try to userGuess)
-    // Of course, you will have to create a variable space to hold this number
-    // when it is returned (e.g., secretNumber)
+    /**
+     * Number of guesses already used
+     */
+    int guessesUsed = 0;
+
+    /**
+     * Generates random integer between 0 and 15 (inclusive)
+     * @return random integer between 0 and 15 (inclusive)
+     */
     public int GetRandomNumber() {
         return randomNumberGenerator.nextInt(16);
     }
 
-    // You may want to create a method that will display the welcome message and rules (e.g., welcome)
+    /**
+     * Displays welcome messages and instructions
+     */
     public void welcome() {
         System.out.println("Welcome, new player! Let's play the guessing game!");
         System.out.println();
@@ -40,99 +53,142 @@ public class GuessingGame extends Object {
         System.out.println("3. I'll give you hints about the number, if you don't guess right");
         System.out.println();
         System.out.println("Ok, I just thought of a new number for you to guess");
+    }
+
+    /**
+     * Displays messages in case the guess is incorrect
+     * @param guess Number guessed by user
+     */
+    public void isGuessNum(int guess) {
         System.out.println();
-    }
-
-    // You may want to create a method (e.g., isGuessNum) that will check to see that the numbered entered is a whole
-    // number, place it into a variable space (e.g., userGuess), and then handle all
-    // the various options regarding that number: has it been guessed before?; is it the
-    // secret number?; if it isn't the secret number store it in the proper location for
-    // cross checking; display messages regarding the number of guesses made, incorrect
-    // userGuess, guesses remaining, secret number if all guesses used up, error handling, etc.
-    public void isGuessNum(int g) {
-        if (isValidGuess(g)) {
-            if (isGuessedPreviously(g)) {
-                System.out.println("You've already guessed " + g);
-            } else {
-                System.out.println("I'm sorry, but my secret number is not " + g);
-                storeGuess(g);
-            }
-            printPreviousGuess();
-            System.out.println("You have " + (5 - numberChoice) + " guessed left");
-            System.out.println("Your next guess?");
-            System.out.println();
+        if (isGuessedPreviously(guess)) {
+            System.out.println("You've already guessed " + guess);
+        } else {
+            System.out.println("I'm sorry, but my secret number is not " + guess);
+            storeGuess(guess);
         }
+        printPreviousGuess();
+        System.out.println("You have " + (5 - guessesUsed) + " guessed left");
     }
 
-    // You may want to create a method to print the user's previous userGuess
+    /**
+     * Displays the user's previous guesses
+     */
     public void printPreviousGuess() {
         System.out.print("So far, you've guessed:");
-        for (int i = 0; i < numberChoice; i++) {
-            System.out.print(" " + userGuess[i]);
+        for (int i = 0; i < guessesUsed; i++) {
+            System.out.print(" " + userGuesses[i]);
         }
         System.out.println();
     }
 
-    // You may want to create a method to store the user's guesses in the 5 elements of the array
-    public void storeGuess(int g) {
-        userGuess[numberChoice] = g;
-        numberChoice++;
-        giveHint(g);
+    /**
+     * Stores user's guess in the @userGuesses variable and updates @guessesUsed
+     * @param guess Number guessed by user
+     */
+    public void storeGuess(int guess) {
+        userGuesses[guessesUsed] = guess;
+        guessesUsed++;
+        giveHint(guess);
     }
 
-    // You may want to create a boolean method to check that the user's userGuess is within range (between 0 and 15)
-    // and will return true if it is
-    public boolean isValidGuess(int g) {
-        if (g >= 0 && g <= 15) {
+    /**
+     * Checks if guess is within valid range of 0 and 15
+     * @param guess Number guessed by user
+     * @return true if guess is valid, false if not
+     */
+    public boolean isValidGuess(int guess) {
+        if (guess >= 0 && guess <= 15) {
             return true;
         }
         return false;
     }
 
-    // You may want to create a boolean method to see if the number has been guessed previously
-    // and will return true if it has
-    public boolean isGuessedPreviously(int g) {
-        for (int i : userGuess) {
-            if (g == i) {
+    /**
+     * Checks if guess has been guessed previously
+     * @param guess Number guessed by user
+     * @return true if guessed previously, false if not
+     */
+    public boolean isGuessedPreviously(int guess) {
+        for (int i : userGuesses) {
+            if (guess == i) {
                 return true;
             }
         }
         return false;
     }
 
-    // You may want to create a boolean method to see if the number matches the secret number
-    // and will return true if it does or false if it doesn't
-    public boolean isSecretNumber(int g) {
-        if (secretNumber == g) {
+    /**
+     * Checks if guess matches secret number
+     * @param guess Number guessed by user
+     * @return true if matches secret number, false if not
+     */
+    public boolean isSecretNumber(int guess) {
+        if (secretNumber == guess) {
             return true;
         }
         return false;
     }
 
-    // You may want to create a method to give a hint about the number guessed (e.g., "My secret
-    // number is GREATER than " or "My secret number is LESS than ")
-    public void giveHint(int g) {
+    /**
+     * Displays hints based on user's guess
+     * @param guess Number guessed by user
+     */
+    public void giveHint(int guess) {
         // s==g won't happen because isSecretNumber is called before this
-        if (secretNumber < g) {
-            System.out.println("My secret number is less than " + g);
+        if (secretNumber < guess) {
+            System.out.println("My secret number is less than " + guess);
         } else {
-            System.out.println("My secret number is greater than " + g);
+            System.out.println("My secret number is greater than " + guess);
         }
     }
 
-    // You may want to create a method (e.g., playGame) that will check if the user wants to play again
-    // (1 for 'yes', 0 for 'no') and incorporate the proper functionality depending on the user's choice ( 1 or 0)
-
-    public void PlayGuessingGame() {
-
-        System.out.println("Hello!");              // You might call a welcome() method here instead
-        welcome();
-
-        // You might create a loop here that will check numberGuesses 5 times and print the userGuess number and call the
-        // pertinent method (e.g., isGuessNum)
-        while (keyboard.hasNextInt() && numberChoice < 5) {
-            System.out.println();
+    /**
+     * Asks for user's guess
+     * @return integer the user guessed
+     */
+    public int getInput() {
+        System.out.println("Your next guess?");
+        System.out.println();
+        if (keyboard.hasNextInt()) {
             int guess = keyboard.nextInt();
+            if (isValidGuess(guess)) {
+                return guess;
+            }
+        }
+        keyboard.nextLine();
+        System.out.println();
+        System.out.println("Please enter number between 0 and 15");
+        System.out.println();
+        return getInput();
+    }
+
+    /**
+     * Asks if user wants to play again
+     * @return true if user wants to play again, false if not
+     */
+    public boolean playGame() {
+        System.out.println("Want to play again? Type \"1\" to continue.");
+        System.out.println();
+        if (keyboard.hasNextInt()) {
+            if (keyboard.nextInt() == 1) {
+                return true;
+            }
+        }
+        System.out.println();
+        System.out.println("Bye! Have a nice day!");
+        return false;
+    }
+
+    /**
+     * Checks if user guessed correctly as long as there are guesses left
+     * @return true if user wants to play again, false if not
+     */
+    public boolean playGuessingGame() {
+        welcome();
+        while (guessesUsed < 5) {
+            System.out.println();
+            int guess = getInput();
             if (isSecretNumber(guess)) {
                 System.out.println("Great guess!!! That's my number!! Winner!!");
                 System.out.println();
@@ -142,16 +198,10 @@ public class GuessingGame extends Object {
             }
             keyboard.nextLine();
         }
-        // TODO check this
-        // TODO change variable names
-        if (numberChoice >= 5) {
+        if (guessesUsed >= 5) {
             System.out.println("You're out of guesses!");
         }
-        // You might call and capture results from method (e.g., playGame) to see if user wants to play again and if
-        // so return it. Example: int playAgain = this.playGame();
-
-        return; // if you want to end the game early & go directly back to main,
-        // you can use a "return;" statement like this one (e.g., return playAgain;)
+        return playGame();
     }
 
 }
