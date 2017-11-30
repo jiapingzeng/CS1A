@@ -1,35 +1,52 @@
 package edu.foothill;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ControlsFrame extends JFrame {
+class ControlsFrame extends JFrame {
 
-    JComboBox<String> movie = new JComboBox<>();
-    JLabel widthLabel = new JLabel("Width: ");
-    JTextField widthText = new JTextField(10);
-    JLabel heightLabel = new JLabel("Height: ");
-    JTextField heightText = new JTextField(10);
-    JButton setSizeButton = new JButton("Set Size");
+    JLabel guideLabel;
+    JPanel mainPanel;
+    JComboBox moviesComboBox;
+    JLabel widthLabel;
+    JTextField widthText;
+    JLabel heightLabel;
+    JTextField heightText;
+    JButton setSizeButton;
 
     public ControlsFrame(String title) {
         super(title);
-        setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
+        setLayout(new BorderLayout(20, 10));
 
-        setSizeButton.addActionListener(new setSizeListener());
+        String[] movies = { "Tron", "Deadpool", "Matrix" };
 
-        add(movie);
-        add(widthLabel);
-        add(widthText);
-        add(heightLabel);
-        add(heightText);
-        add(setSizeButton);
+        guideLabel = new JLabel("Choose a poster from the dropdown.");
+        mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 20));
+        moviesComboBox = new JComboBox(movies);
+        widthLabel = new JLabel("Width: ");
+        widthText = new JTextField("600", 7);
+        heightLabel = new JLabel("Height: ");
+        heightText = new JTextField("900", 7);
+        setSizeButton = new JButton("Set Size");
+
+        mainPanel.setBorder(new TitledBorder("Movie Poster"));
+        setSizeButton.addActionListener(new setSizeButtonListener());
+
+        add(guideLabel, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
+        mainPanel.add(moviesComboBox);
+        mainPanel.add(widthLabel);
+        mainPanel.add(widthText);
+        mainPanel.add(heightLabel);
+        mainPanel.add(heightText);
+        mainPanel.add(setSizeButton);
     }
 
-    public void displayImage(int width, int height) {
+    public void displayImage(int width, int height, String imagePath) {
         ImageDisplay display = new ImageDisplay();
-        display.setImagePath("4859886671_cef0598bf3_b.jpg");
+        display.setImagePath(imagePath);
         JFrame imageFrame = new JFrame();
         imageFrame.setLocationRelativeTo(this);
         imageFrame.setSize(width, height);
@@ -37,7 +54,8 @@ public class ControlsFrame extends JFrame {
         imageFrame.add(display);
     }
 
-    class setSizeListener implements ActionListener {
+    class setSizeButtonListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             int width;
             int height;
@@ -45,10 +63,12 @@ public class ControlsFrame extends JFrame {
                 width = Integer.parseInt(widthText.getText());
                 height = Integer.parseInt(heightText.getText());
             } catch (NumberFormatException ex) {
+                System.out.println("Invalid width or height");
                 width = 600;
                 height = 900;
             }
-            displayImage(width, height);
+            String imagePath = moviesComboBox.getSelectedItem().toString() + ".jpg";
+            displayImage(width, height, imagePath);
         }
     }
 }
