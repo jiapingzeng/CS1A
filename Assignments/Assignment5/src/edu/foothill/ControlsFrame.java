@@ -20,7 +20,7 @@ class ControlsFrame extends JFrame {
         super(title);
         setLayout(new BorderLayout(20, 10));
 
-        String[] movies = { "Tron", "Deadpool", "Matrix" };
+        String[] movies = { "Tron", "Deadpool", "Matrix", "Avatar", "Spiderman", "Magic Mike", "Star Wars", "Justice League", "Moonrise Kingdom", "Harry Potter" };
 
         guideLabel = new JLabel("Choose a poster from the dropdown.");
         mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 20));
@@ -45,7 +45,7 @@ class ControlsFrame extends JFrame {
     }
 
     public void displayImage(int width, int height, String imagePath) {
-        ImageDisplay display = new ImageDisplay();
+        ImageDisplay display =new ImageDisplay();
         display.setImagePath(imagePath);
         JFrame imageFrame = new JFrame();
         imageFrame.setLocationRelativeTo(this);
@@ -67,7 +67,7 @@ class ControlsFrame extends JFrame {
                 width = 600;
                 height = 900;
             }
-            String imagePath = moviesComboBox.getSelectedItem().toString() + ".jpg";
+            String imagePath = "posters/" + moviesComboBox.getSelectedItem().toString().toLowerCase().replace(' ', '_') + ".jpg";
             displayImage(width, height, imagePath);
         }
     }
